@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
 
 const Button = styled.button`
-  height: 45px;
-  min-width: 70px;
-  margin: 10px 0px;
+  height: 30px;
+  min-width: 10px;
   border: none;
+  padding: 0px 15px;
   border-radius: 8px;
   background: ${({ bg }) => (bg ? bg : `var(--blue)`)};
   color: ${({ color }) => (color ? color : `var(--white)`)};

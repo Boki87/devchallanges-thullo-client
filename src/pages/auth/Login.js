@@ -79,6 +79,7 @@ export default function Login({ setFormHandler }) {
             autoComplete="false"
             value={inputs.email}
             onChange={handleChange}
+            style={{ height: "45px" }}
           />
           <Input
             type="password"
@@ -86,12 +87,16 @@ export default function Login({ setFormHandler }) {
             value={inputs.password}
             onChange={handleChange}
             placeholder="Password"
+            style={{ height: "45px" }}
           />
           {userState.userError && (
             <p style={{ color: "red" }}>{userState.userError}</p>
           )}
 
-          <Button disabled={userState.userLoading}>
+          <Button
+            style={{ height: "45px", margin: "10px 0px" }}
+            disabled={userState.userLoading}
+          >
             {userState.userLoading ? <Spinner /> : "Log in"}
           </Button>
 

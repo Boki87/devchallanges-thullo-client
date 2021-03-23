@@ -1,5 +1,13 @@
 import { api } from "../../utils/api";
 
+export const logOut = ({ state }) => {
+  localStorage.removeItem("thullo-user-token");
+  localStorage.removeItem("thullo-user");
+  state.user.user = null;
+  state.user.userLoading = false;
+  state.user.userError = null;
+};
+
 export const loginUser = async ({ state, effects, actions }, payload) => {
   const { email, password } = payload;
   state.user.userLoading = true;
