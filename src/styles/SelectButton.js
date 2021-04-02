@@ -8,7 +8,7 @@ export const SelectButton = styled.div`
   align-items: center;
   background: var(--bgGrey);
   color: var(--textGrey);
-  font-size: 1rem;
+  font-size: 0.8rem;
   cursor: pointer;
   overflow: hidden;
   white-space: nowrap;
@@ -17,7 +17,7 @@ export const SelectButton = styled.div`
     filter: brightness(90%);
   }
   .icon {
-    padding: 0px 10px;
+    padding: 0px 7px;
     display: flex;
     align-items: center;
     justify-content: center;

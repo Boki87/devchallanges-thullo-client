@@ -102,7 +102,9 @@ export default function Login({ setFormHandler }) {
 
           <div>
             Don't have a account?{" "}
-            <a onClick={() => setFormHandler("register")}>Sign up for one</a>
+            <a className="link" onClick={() => setFormHandler("register")}>
+              Sign up for one
+            </a>
           </div>
         </form>
       </div>

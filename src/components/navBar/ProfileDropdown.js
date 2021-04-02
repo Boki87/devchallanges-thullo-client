@@ -3,7 +3,7 @@ import styled from "styled-components";
 import NoProfileImage from "../../assets/no-profile-image.png";
 import { useOvermind } from "../../store";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
-
+import MemberAvatar from "../MemberAvatar";
 const WrapperStyled = styled.div`
   position: relative;
 `;
@@ -38,6 +38,8 @@ const DropdownStyled = styled.div`
   border-radius: 8px;
   border: var(--border-light);
   box-shadow: var(--bs2);
+  overflow: hidden;
+  z-index: 2;
   div {
     height: 40px;
     width: 100%;
@@ -70,14 +72,14 @@ export default function ProfileDropdown() {
   return (
     <WrapperStyled ref={ref}>
       <ProfileDropdownStyled onClick={() => setShowDropdown(!showDropdown)}>
-        <div className="profile-image-container">
+        {/* <div className="profile-image-container">
           <img
             className="profile-image"
             src={NoProfileImage}
             alt="profile image"
           />
-        </div>
-
+        </div> */}
+        <MemberAvatar member={userState.user} />
         <span>{userState.user.name}</span>
         <span className="material-icons">arrow_drop_down</span>
       </ProfileDropdownStyled>

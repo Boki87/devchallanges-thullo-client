@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useOutsideClick } from "../../hooks/useOutsideClick";
-import { SelectButton } from "../../styles/SelectButton";
+import { useOutsideClick } from "../hooks/useOutsideClick";
+import { SelectButton } from "../styles/SelectButton";
+import Spinner from "./Spinner";
 
 const SelectStyled = styled.div`
   position: relative;
@@ -104,6 +105,7 @@ function ImageThumb({ img, selectPhoto }) {
 
 export default function UnsplashSearch({ selectPhoto }) {
   const [resultPhotos, setResultPhotos] = useState([]);
+  const [resultsLoading, setResultsLoading] = useState(false);
 
   const [showOptions, setShowOptions] = useState(false);
   const [query, setQuery] = useState("");
@@ -112,7 +114,15 @@ export default function UnsplashSearch({ selectPhoto }) {
   useOutsideClick(ref, closeDropdown);
 
   useEffect(() => {
-    unsplashSearch("office");
+    function listenForEscKey(event) {
+      if (event.key === "Escape") {
+        closeDropdown();
+      }
+    }
+
+    window.addEventListener("keyup", listenForEscKey);
+
+    return () => window.removeEventListener("keyup", listenForEscKey);
   }, []);
 
   useEffect(() => {
@@ -128,7 +138,7 @@ export default function UnsplashSearch({ selectPhoto }) {
     setQuery(e.target.value.toLowerCase());
   }
 
-  async function submitQuery(e) {
+  async function submitQuery() {
     if (query === "") {
       return;
     }
@@ -137,14 +147,16 @@ export default function UnsplashSearch({ selectPhoto }) {
   }
 
   async function unsplashSearch(q) {
+    setResultsLoading(true);
     const endpoint = `https://api.unsplash.com/search/photos?page=1&per_page=12&query=${q}&client_id=n18gqcBvjkh30NIhgxLxwc_omz8C6EN56SUXaw9FOCs`;
     const response = await fetch(endpoint);
 
     if (!response.ok) {
       throw Error(response.statusText);
+      setResultsLoading(false);
     }
     const json = await response.json();
-    console.log(json.results);
+    setResultsLoading(false);
     setResultPhotos(json.results);
   }
 
@@ -153,6 +165,12 @@ export default function UnsplashSearch({ selectPhoto }) {
     closeDropdown();
   }
 
+  function preventReturn(e) {
+    if (e.which === 13 /* Enter */) {
+      submitQuery();
+      e.preventDefault();
+    }
+  }
   return (
     <SelectStyled ref={ref}>
       <SelectButton onClick={() => setShowOptions(true)}>
@@ -172,21 +190,28 @@ export default function UnsplashSearch({ selectPhoto }) {
               placeholder="Keywords..."
               value={query}
               onChange={queryChangeHandler}
+              onKeyPress={preventReturn}
             />
             <div className="searchBtn" onClick={submitQuery}>
               <span className="material-icons">search</span>
             </div>
           </div>
 
-          {resultPhotos.length === 0 && <p>No results for given keyword</p>}
+          {!resultsLoading && resultPhotos.length === 0 && (
+            <p>No results for given keyword</p>
+          )}
+          <div style={{ textAlign: "center" }}>
+            {resultsLoading && <Spinner />}
+          </div>
           <div className="results-container">
-            {resultPhotos.map((photo) => (
-              <ImageThumb
-                img={photo.urls}
-                key={photo.urls.thumb}
-                selectPhoto={selectPhotoHandler}
-              />
-            ))}
+            {!resultsLoading &&
+              resultPhotos.map((photo) => (
+                <ImageThumb
+                  img={photo.urls}
+                  key={photo.urls.thumb}
+                  selectPhoto={selectPhotoHandler}
+                />
+              ))}
           </div>
         </div>
       )}

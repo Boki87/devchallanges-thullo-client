@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { getInitials } from "../utils";
 
 const BoardCardStyled = styled.div`
@@ -30,6 +31,14 @@ const BoardCardStyled = styled.div`
 
   .board-name {
     text-transform: capitalize;
+    a {
+      color: var(--textDark);
+      text-decoration: none;
+      &:hover {
+        color: var(--blue);
+        text-decoration: underline;
+      }
+    }
   }
 
   .board-card-members {
@@ -75,7 +84,7 @@ function BoardCardMember({ member }) {
 }
 
 export default function BoardCard({ board }) {
-  const { name, createdBy, members, id, coverPhoto } = board;
+  const { name, createdBy, members, _id, coverPhoto } = board;
 
   const boardInitials = getInitials(name);
 
@@ -85,15 +94,19 @@ export default function BoardCard({ board }) {
 
   return (
     <BoardCardStyled>
-      <div className="cover-photo-inner">
-        {coverPhoto != "" ? (
-          <img src={coverPhoto} />
-        ) : (
-          <span>{boardInitials}</span>
-        )}
-      </div>
+      <Link to={`/b/${_id}`}>
+        <div className="cover-photo-inner">
+          {coverPhoto != "" ? (
+            <img src={coverPhoto} />
+          ) : (
+            <span>{boardInitials}</span>
+          )}
+        </div>
+      </Link>
 
-      <div className="board-name">{name}</div>
+      <div className="board-name">
+        <Link to={`/b/${_id}`}>{name}</Link>
+      </div>
 
       <div className="board-card-members">
         {allMembers.map((m, i) => {

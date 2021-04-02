@@ -6,7 +6,9 @@ import Button from "../styles/Button";
 import { useOvermind } from "../store";
 import Spinner from "../components/Spinner";
 import Select from "./Select";
-import UnsplashSearch from "./unsplashSearch/UnsplashSearch";
+import VisibilitySelect from "./VisibilitySelect";
+
+import UnsplashSearch from "./UnsplashSearch";
 
 const NewBoardModalStyled = styled.div`
   width: 310px;
@@ -85,11 +87,7 @@ export default function NewBoardModal({ show, closeModal }) {
   const [boardName, setBoardName] = useState("");
   const [coverPhoto, setCoverPhoto] = useState("");
   const [coverPhotoLoading, setCoverPhotoLoading] = useState(false);
-  const [visibility, setVisibility] = useState({
-    title: "Private",
-    icon: <span className="material-icons">lock</span>,
-    value: "private",
-  });
+  const [visibility, setVisibility] = useState("public");
 
   const {
     actions: { boards: boardActions },
@@ -98,11 +96,7 @@ export default function NewBoardModal({ show, closeModal }) {
 
   useEffect(() => {
     setBoardName("");
-    setVisibility({
-      title: "Private",
-      icon: <span className="material-icons">lock</span>,
-      value: "private",
-    });
+    setVisibility("public");
   }, [show]);
 
   useEffect(() => {
@@ -130,7 +124,7 @@ export default function NewBoardModal({ show, closeModal }) {
       form: {
         name: boardName,
         coverPhoto,
-        visibility: visibility.value,
+        visibility,
       },
       cb: closeModal,
     });
@@ -167,7 +161,11 @@ export default function NewBoardModal({ show, closeModal }) {
           </div>
           <div className="row space">
             <UnsplashSearch selectPhoto={selectPhotoHandler} />
-            <Select
+            <VisibilitySelect
+              visibility={visibility}
+              changeVisibility={setVisibility}
+            />
+            {/* <Select
               value={visibility}
               onChange={visibilityChangeHandler}
               options={[
@@ -182,7 +180,7 @@ export default function NewBoardModal({ show, closeModal }) {
                   value: "public",
                 },
               ]}
-            />
+            /> */}
           </div>
           <div className="row position-end">
             <Button

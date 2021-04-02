@@ -10,7 +10,7 @@ const BoardsStyled = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-  background: var(--bgGrey);
+  background: var(--bgGreyLight);
 
   .inner-container {
     max-width: 1140px;
@@ -42,6 +42,7 @@ export default function Boards() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    boardActions.resetActiveBoard();
     boardActions.getBoards();
   }, []);
 

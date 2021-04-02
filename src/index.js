@@ -7,10 +7,8 @@ import App from "./App";
 import { overmind } from "./store";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider value={overmind}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  <Provider value={overmind}>
+    <App />
+  </Provider>,
   document.getElementById("root")
 );

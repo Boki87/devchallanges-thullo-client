@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 import NavBar from "../components/navBar/NavBar";
 import Boards from "./Boards";
+import Board from "./Board";
 
 const WrapperStyled = styled.div`
   height: 100%;
@@ -25,8 +26,11 @@ const ProtectedRoutes = () => {
         <NavBar />
         <div className="pages-container">
           <Switch>
-            <Route path="/">
+            <Route exact path="/">
               <Boards />
+            </Route>
+            <Route exact path="/b/:id">
+              <Board />
             </Route>
           </Switch>
         </div>

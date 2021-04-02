@@ -112,7 +112,9 @@ export default function Register({ setFormHandler }) {
 
           <div>
             Already have a account?{" "}
-            <a onClick={() => setFormHandler("login")}>Log in here</a>
+            <a className="link" onClick={() => setFormHandler("login")}>
+              Log in here
+            </a>
           </div>
         </form>
       </div>
