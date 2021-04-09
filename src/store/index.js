@@ -4,11 +4,13 @@ import { createHook } from "overmind-react";
 
 import * as user from "./user";
 import * as boards from "./boards";
+import * as lists from "./lists";
 
 const config = merge(
   namespaced({
     user,
     boards,
+    lists,
   })
 );
 

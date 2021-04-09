@@ -8,6 +8,7 @@ import { useOvermind } from "../../store";
 const BoardActionsBarStyled = styled.div`
   width: 100%;
   height: 40px;
+  padding: 0px 24px;
   display: flex;
   align-items: center;
 `;

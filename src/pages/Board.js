@@ -5,12 +5,16 @@ import { useOvermind } from "../store";
 import BoardActionsBar from "../components/boardPageComponents/BoardActionsBar";
 import Spinner from "../components/Spinner";
 import BardSlideMenu from "../components/boardPageComponents/BoardSlideMenu";
+import ListsContainer from "../components/boardPageComponents/ListsContainer";
 
 const BoardStyled = styled.div`
-  padding: 24px;
+  padding-top: 24px;
   height: 100%;
   width: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `;
 
 export default function Board() {
@@ -45,15 +49,7 @@ export default function Board() {
             toggleMenu={toggleMenuHandler}
           />
 
-          {/* <div
-            style={{
-              width: "100%",
-              height: "1000px",
-              borderRadius: "12px",
-              background: "var(--bgGrey)",
-              marginTop: "20px",
-            }}
-          ></div> */}
+          <ListsContainer />
         </>
       )}
 

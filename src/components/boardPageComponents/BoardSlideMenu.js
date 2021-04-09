@@ -28,6 +28,7 @@ const BoardSlideMenuStyled = styled.div`
   top: 0px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
   padding: 20px;
+  z-index: 100;
   .header {
     width: 100%100%;
     height: 50px;
