@@ -6,8 +6,8 @@ import ListTitle from "./ListTitle";
 
 const CardContainerStyled = styled.div`
   min-width: 245px;
-  min-height: 100px;
-  max-height: 100%;
+  /* min-height: 100px; */
+  height: 100%;
   padding-bottom: 50px;
   overflow-x: hidden;
   overflow-y: auto;

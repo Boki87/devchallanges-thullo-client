@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useOvermind } from "../store";
 import BoardActionsBar from "../components/boardPageComponents/BoardActionsBar";
 import Spinner from "../components/Spinner";
 import BardSlideMenu from "../components/boardPageComponents/BoardSlideMenu";
 import ListsContainer from "../components/boardPageComponents/ListsContainer";
+import CardModal from "../components/cardModal/CardModal";
 
 const BoardStyled = styled.div`
   padding-top: 24px;
@@ -17,10 +18,17 @@ const BoardStyled = styled.div`
   overflow: hidden;
 `;
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 export default function Board() {
+  const location = useLocation();
   const { id } = useParams();
+  const query = useQuery();
 
   const [showMenu, setShowMenu] = useState(false);
+  const [cardModalId, setCardModalId] = useState(null);
 
   const {
     state: { boards: boardsState },
@@ -30,6 +38,11 @@ export default function Board() {
   useEffect(() => {
     boardsActions.getActiveBoard(id);
   }, []);
+
+  useEffect(() => {
+    let cardId = query.get("card");
+    setCardModalId(cardId);
+  }, [location.search]);
 
   function toggleMenuHandler() {
     setShowMenu(!showMenu);
@@ -52,6 +65,8 @@ export default function Board() {
           <ListsContainer />
         </>
       )}
+
+      {cardModalId && <CardModal cardId={cardModalId} />}
 
       <BardSlideMenu
         board={boardsState.activeBoard}

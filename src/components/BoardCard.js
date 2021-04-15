@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { getInitials } from "../utils";
+import BoardCardMember from "./BoardCardMember";
+import BoardCardMembers from "./BoardCardMembers";
 
 const BoardCardStyled = styled.div`
   width: 243px;
@@ -53,44 +55,12 @@ const BoardCardStyled = styled.div`
   }
 `;
 
-const BoardCardMemberStyled = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--grey);
-  color: var(--white);
-  font-size: 0.8rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-function BoardCardMember({ member }) {
-  const { name, photo } = member;
-
-  const initials = getInitials(name);
-
-  return (
-    <BoardCardMemberStyled>
-      {photo !== "" ? <img src="" alt="" /> : <span>{initials}</span>}
-    </BoardCardMemberStyled>
-  );
-}
-
 export default function BoardCard({ board }) {
   const { name, createdBy, members, _id, coverPhoto } = board;
 
   const boardInitials = getInitials(name);
 
   let allMembers = [createdBy, ...members];
-
-  let numOfMembersToShow = 3;
 
   return (
     <BoardCardStyled>
@@ -108,19 +78,7 @@ export default function BoardCard({ board }) {
         <Link to={`/b/${_id}`}>{name}</Link>
       </div>
 
-      <div className="board-card-members">
-        {allMembers.map((m, i) => {
-          if (i < numOfMembersToShow) {
-            return <BoardCardMember member={m} key={i} />;
-          }
-        })}
-
-        {allMembers.length > numOfMembersToShow && (
-          <span className="num-of-others">
-            + {allMembers.length - numOfMembersToShow} others
-          </span>
-        )}
-      </div>
+      <BoardCardMembers members={allMembers} />
     </BoardCardStyled>
   );
 }

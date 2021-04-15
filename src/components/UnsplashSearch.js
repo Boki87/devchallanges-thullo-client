@@ -19,7 +19,7 @@ const SelectStyled = styled.div`
     left: 0px;
     overflow: hidden;
     overflow-y: auto;
-    z-index: 1;
+    z-index: 30;
     h4 {
       color: var(--textDark);
       font-size: 0.8rem;
@@ -103,7 +103,7 @@ function ImageThumb({ img, selectPhoto }) {
   );
 }
 
-export default function UnsplashSearch({ selectPhoto }) {
+export default function UnsplashSearch({ selectPhoto, btnStyle }) {
   const [resultPhotos, setResultPhotos] = useState([]);
   const [resultsLoading, setResultsLoading] = useState(false);
 
@@ -173,7 +173,7 @@ export default function UnsplashSearch({ selectPhoto }) {
   }
   return (
     <SelectStyled ref={ref}>
-      <SelectButton onClick={() => setShowOptions(true)}>
+      <SelectButton onClick={() => setShowOptions(true)} style={btnStyle}>
         <div className="icon">
           <span className="material-icons">collections</span>
         </div>

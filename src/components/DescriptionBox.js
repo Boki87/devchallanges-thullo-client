@@ -109,7 +109,7 @@ export default function DescriptionBox({ description, onSave }) {
       </div>
 
       {!editMode && (
-        <p>
+        <p style={{ whiteSpace: "pre" }}>
           {description !== "" ? description : "No description... Edit this."}
         </p>
       )}

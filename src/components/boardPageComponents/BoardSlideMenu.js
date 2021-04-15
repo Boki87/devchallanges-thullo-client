@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { Transition } from "react-transition-group";
 import MemberAvatar from "../MemberAvatar";
@@ -6,6 +6,7 @@ import DescriptionBox from "../DescriptionBox";
 import { parseDate } from "../../utils";
 import { useOvermind } from "../../store";
 import Member from "../Member";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 const duration = 200;
 const defaultStyle = {
@@ -140,6 +141,15 @@ export default function BoardSlideMenu({ board, show, toggleMenu }) {
     state: { user: userState },
   } = useOvermind();
 
+  const ref = useRef(null);
+
+  useOutsideClick(ref, closeMenu);
+
+  function closeMenu() {
+    console.log(1111);
+    toggleMenu();
+  }
+
   const [loading, setLoading] = useState(false);
 
   function descriptionUpdateHandler(val) {
@@ -179,6 +189,7 @@ export default function BoardSlideMenu({ board, show, toggleMenu }) {
       {(state) => (
         <BoardSlideMenuStyled
           style={{ ...defaultStyle, ...transitionStyles[state] }}
+          ref={ref}
         >
           <div className="header">
             <span className="header-name">{board.name}</span>

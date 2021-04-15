@@ -4,6 +4,25 @@ import { api } from "../../utils/api";
 //   listsLoading: false,
 //   listsError: null,
 // };
+
+export const updateCardInList = ({ state }, payload) => {
+  const { listId, updatedCard } = payload;
+
+  state.lists.lists.map((list) => {
+    if (list._id === listId) {
+      let cards = list.cards.map((card) => {
+        if (card._id === updatedCard._id) {
+          card = updatedCard;
+        }
+        return card;
+      });
+      list.cards = cards;
+    }
+
+    return list;
+  });
+};
+
 export const getLists = async ({ state }, payload) => {
   const { id } = payload;
   state.lists.listsLoading = true;

@@ -9,6 +9,7 @@ const MemberStyled = styled.div`
   margin: 15px 0px;
   .member-name {
     text-transform: capitalize;
+    font-size: 0.8rem;
   }
 `;
 

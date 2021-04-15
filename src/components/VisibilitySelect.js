@@ -21,7 +21,7 @@ const SelectStyled = styled.div`
     overflow: hidden;
     overflow-y: auto;
     box-shadow: var(--bs2);
-    z-index: 1;
+    z-index: 20;
     h4 {
       color: var(--textDark);
       font-size: 0.8rem;
