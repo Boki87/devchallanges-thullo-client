@@ -47,6 +47,7 @@ const BoardCardStyled = styled.div`
     margin-top: 10px;
     display: flex;
     align-items: center;
+    -webkit-gap: 5px;
     gap: 5px;
     .num-of-others {
       color: var(--textGrey);

@@ -10,6 +10,8 @@ import DescriptionBox from "../DescriptionBox";
 import UnsplashSearch from "../UnsplashSearch";
 import AssignMember from "./AssignMember";
 import LabelSelect from "../LabelSelect";
+import Comments from "./Comments";
+import Attachments from "./Attachments";
 
 const CardModalStyled = styled.div`
   position: fixed;
@@ -93,12 +95,18 @@ const CardModalStyled = styled.div`
 export default function CardModal({ cardId }) {
   const {
     actions: { lists: listsActions },
+    state: { user: userState },
   } = useOvermind();
 
   const [cardState, setCardState] = useState(null);
   const [cardLoading, setCardLoading] = useState(true);
   const location = useLocation();
   const history = useHistory();
+
+  //loading state
+  const [addingNewComment, setAddingNewComment] = useState(false);
+  const [updatingComment, setUpdatingComment] = useState(false);
+  //////
 
   useEffect(() => {
     async function getCardData() {
@@ -107,6 +115,10 @@ export default function CardModal({ cardId }) {
         const res = await api.get(`/cards/${cardId}`);
         console.log(res);
         if (res.data.success) {
+          console.log(res.data.data.comments);
+          res.data.data.comments.sort(function (a, b) {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          });
           setCardState(res.data.data);
           setCardLoading(false);
         } else {
@@ -168,24 +180,132 @@ export default function CardModal({ cardId }) {
     });
   }
 
+  async function addCommentHandler(text) {
+    let newComment = {
+      text,
+      createdBy: userState.user._id,
+      cardId: cardState._id,
+    };
+
+    try {
+      setAddingNewComment(true);
+      const res = await api.post(`/comments`, newComment);
+      if (res.data.success) {
+        let newComment = res.data.data;
+        updateAjaxCall(
+          {
+            comments: [...cardState.comments.map((c) => c._id), newComment._id],
+          },
+          () => {
+            setAddingNewComment(false);
+          }
+        );
+      } else {
+        //TODO: handle notification for unsuccessful update
+        setAddingNewComment(false);
+        console.log("TODO: handle notification for unsuccessful update");
+      }
+    } catch (err) {
+      //TODO: handle notification for unsuccessful update
+      setAddingNewComment(false);
+      console.log(err);
+    }
+  }
+
+  async function updateCommentHandler(newComment) {
+    try {
+      setUpdatingComment(newComment.id);
+      const res = await api.put(`/comments/${newComment.id}`, {
+        text: newComment.text,
+      });
+      if (res.data.success) {
+        let updatedComment = res.data.data;
+        console.log(updatedComment);
+        let cardStateCopy = { ...cardState };
+        let newComments = cardStateCopy.comments.map((comment) => {
+          if (comment._id === updatedComment._id) {
+            return updatedComment;
+          }
+          return comment;
+        });
+        cardStateCopy.comments = newComments;
+        setCardState(cardStateCopy);
+        setUpdatingComment(false);
+      } else {
+        //TODO: handle notification for unsuccessful update
+        setUpdatingComment(false);
+        console.log("TODO: handle notification for unsuccessful update");
+      }
+    } catch (err) {
+      //TODO: handle notification for unsuccessful update
+      setUpdatingComment(false);
+      console.log(err);
+    }
+  }
+
+  async function deleteCommentHandler(id) {
+    try {
+      const res = await api.delete(`/comments/${id}`);
+      if (res.data.success) {
+        let updatedComment = res.data.data;
+
+        let cardStateCopy = { ...cardState };
+        let newComments = cardStateCopy.comments.filter((comment) => {
+          if (comment._id !== id) {
+            return comment;
+          }
+        });
+        cardStateCopy.comments = newComments;
+
+        updateAjaxCall({ comments: [...newComments.map((c) => c._id)] }, () => {
+          setCardState(cardStateCopy);
+        });
+      } else {
+        //TODO: handle notification for unsuccessful update
+        console.log("TODO: handle notification for unsuccessful update");
+      }
+    } catch (err) {
+      //TODO: handle notification for unsuccessful update
+      console.log(err);
+    }
+  }
+
+  function uploadAttachmentHandler(attachment) {
+    updateAjaxCall({
+      attachments: [...cardState.attachments, attachment],
+    });
+  }
+
+  function deleteAttachmentHandler(id) {
+    let newAttachments = cardState.attachments.filter((att) => att._id !== id);
+    updateAjaxCall({
+      attachments: newAttachments,
+    });
+  }
+
   async function updateAjaxCall(props, cb) {
     try {
       const res = await api.put(`/cards/${cardState._id}`, props);
       if (res.data.success) {
         let updatedCard = res.data.data;
+        updatedCard.comments.sort(function (a, b) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
         setCardState(updatedCard);
         listsActions.updateCardInList({
           listId: updatedCard.listId._id,
           updatedCard: updatedCard,
         });
-        // cb();
+        if (cb) {
+          cb();
+        }
       } else {
         //TODO: handle notification for unsuccessful update
-        console.log("could not update card");
+        console.log("1 could not update card");
       }
     } catch (err) {
       //TODO: handle notification for unsuccessful update
-      console.log("could not update card");
+      console.log("2 could not update card");
     }
   }
 
@@ -241,6 +361,21 @@ export default function CardModal({ cardId }) {
             <DescriptionBox
               description={cardState.description}
               onSave={descriptionChangeHandler}
+            />
+
+            <Attachments
+              onUploadedAttachment={uploadAttachmentHandler}
+              attachments={cardState.attachments}
+              onDelete={deleteAttachmentHandler}
+            />
+
+            <Comments
+              comments={cardState.comments}
+              onAddComment={addCommentHandler}
+              onUpdateComment={updateCommentHandler}
+              addingNewComment={addingNewComment}
+              updatingComment={updatingComment}
+              onDelete={deleteCommentHandler}
             />
           </div>
           <aside>

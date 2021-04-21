@@ -6,6 +6,7 @@ import InviteMemberDropdown from "./InviteMemberDropdown";
 const MembersBarStyled = styled.div`
   margin-left: 20px;
   display: flex;
+  -webkit-gap: 15px;
   gap: 15px;
 `;
 

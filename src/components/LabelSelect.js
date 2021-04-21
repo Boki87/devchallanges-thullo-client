@@ -88,6 +88,7 @@ const SelectStyled = styled.div`
   .available-labels-container {
     display: flex;
     flex-wrap: wrap;
+    -webkit-gap: 5px;
     gap: 5px;
   }
 `;

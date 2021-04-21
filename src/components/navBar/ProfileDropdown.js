@@ -39,7 +39,7 @@ const DropdownStyled = styled.div`
   border: var(--border-light);
   box-shadow: var(--bs2);
   overflow: hidden;
-  z-index: 2;
+  z-index: 200;
   div {
     height: 40px;
     width: 100%;
@@ -79,8 +79,8 @@ export default function ProfileDropdown() {
             alt="profile image"
           />
         </div> */}
-        <MemberAvatar member={userState.user} />
-        <span>{userState.user.name}</span>
+        <MemberAvatar member={userState?.user} />
+        <span>{userState?.user?.name}</span>
         <span className="material-icons">arrow_drop_down</span>
       </ProfileDropdownStyled>
       {showDropdown && (

@@ -143,12 +143,11 @@ export default function BoardSlideMenu({ board, show, toggleMenu }) {
 
   const ref = useRef(null);
 
-  useOutsideClick(ref, closeMenu);
-
-  function closeMenu() {
-    console.log(1111);
+  let closeMenu = () => {
     toggleMenu();
-  }
+  };
+
+  useOutsideClick(ref, closeMenu);
 
   const [loading, setLoading] = useState(false);
 

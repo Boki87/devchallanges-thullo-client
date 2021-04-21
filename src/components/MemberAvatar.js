@@ -20,7 +20,7 @@ const MemberAvatarStyled = styled.div`
   }
 `;
 
-export default function MemberAvatar({ member }) {
+export default function MemberAvatar({ member = { name: "", photo: "" } }) {
   const { name, photo } = member;
   let initials = getInitials(name);
   return (
