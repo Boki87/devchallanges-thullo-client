@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import lighten from "@bit/styled-components.polished.color.lighten";
-import darken from "@bit/styled-components.polished.color.darken";
+// import lighten from "@bit/styled-components.polished.color.lighten";
+// import darken from "@bit/styled-components.polished.color.darken";
+import { lighten, darken } from "polished";
 
 const LabelPillStyled = styled.button`
   border: none;
