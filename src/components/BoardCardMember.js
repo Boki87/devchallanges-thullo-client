@@ -27,7 +27,7 @@ export default function BoardCardMember({ member }) {
 
   return (
     <BoardCardMemberStyled>
-      {photo !== "" ? <img src="" alt="" /> : <span>{initials}</span>}
+      {photo !== "" ? <img src={photo} alt="" /> : <span>{initials}</span>}
     </BoardCardMemberStyled>
   );
 }

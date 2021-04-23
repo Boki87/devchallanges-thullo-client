@@ -4,6 +4,7 @@ import styled from "styled-components";
 import NavBar from "../components/navBar/NavBar";
 import Boards from "./Boards";
 import Board from "./Board";
+import Profile from "./Profile";
 
 const WrapperStyled = styled.div`
   height: 100%;
@@ -28,6 +29,9 @@ const ProtectedRoutes = () => {
           <Switch>
             <Route exact path="/">
               <Boards />
+            </Route>
+            <Route exact path="/profile">
+              <Profile />
             </Route>
             <Route exact path="/b/:id">
               <Board />

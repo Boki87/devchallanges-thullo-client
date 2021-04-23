@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import NoProfileImage from "../../assets/no-profile-image.png";
 import { useOvermind } from "../../store";
@@ -32,7 +33,7 @@ const DropdownStyled = styled.div`
   position: absolute;
   top: 60px;
   right: 0px;
-  min-height: 100px;
+  min-height: 50px;
   width: 200px;
   background: #fff;
   border-radius: 8px;
@@ -85,9 +86,9 @@ export default function ProfileDropdown() {
       </ProfileDropdownStyled>
       {showDropdown && (
         <DropdownStyled>
-          <div>Profile</div>
-          <div>Settings</div>
-          <div>Activity</div>
+          <Link to="/profile" onClick={() => setShowDropdown(!showDropdown)}>
+            <div>Profile</div>
+          </Link>
           <div onClick={userActions.logOut}>Log out</div>
         </DropdownStyled>
       )}

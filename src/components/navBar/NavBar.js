@@ -48,12 +48,14 @@ export default function NavBar() {
   return (
     <NavBarStyled>
       <div className="container">
-        <img src={Logo} alt="thullo logo" />
+        <Link to="/">
+          <img src={Logo} alt="thullo logo" />
+        </Link>
 
-        {boardsState.boardLoading && location.pathname !== "/" && (
+        {boardsState.boardLoading && location.pathname.includes("/b/") && (
           <Spinner style={{ marginLeft: "100px" }} />
         )}
-        {!boardsState.boardLoading && location.pathname !== "/" && (
+        {!boardsState.boardLoading && location.pathname.includes("/b/") && (
           <>
             <span className="board-name">{boardsState?.activeBoard?.name}</span>
             <div className="separator"></div>

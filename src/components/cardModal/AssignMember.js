@@ -190,7 +190,10 @@ export default function AssignMember({ members, addMember, removeMember }) {
   useEffect(() => {
     let membersIds = members.map((m) => m._id);
 
-    let allMembers = [userState.user, ...boardsState.activeBoard.members];
+    let allMembers = [
+      boardsState.activeBoard.createdBy,
+      ...boardsState.activeBoard.members,
+    ];
 
     let boardMembers = allMembers.filter((m) => {
       if (!membersIds.includes(m._id)) {

@@ -20,7 +20,7 @@ const CardModalStyled = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,9 +113,8 @@ export default function CardModal({ cardId }) {
       if (!cardId) return;
       try {
         const res = await api.get(`/cards/${cardId}`);
-        console.log(res);
+
         if (res.data.success) {
-          console.log(res.data.data.comments);
           res.data.data.comments.sort(function (a, b) {
             return new Date(b.createdAt) - new Date(a.createdAt);
           });

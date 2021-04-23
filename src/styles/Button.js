@@ -23,7 +23,8 @@ const Button = styled.button`
   ${(props) =>
     props.disabled &&
     css`
-      filter: brightness(90%);
+      filter: brightness(80%);
+      cursor: no-drop;
     `}
 `;
 

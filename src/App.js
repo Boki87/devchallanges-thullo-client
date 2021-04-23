@@ -3,7 +3,7 @@ import Auth from "./pages/auth/Auth";
 import ProtectedRoutes from "./pages/ProtectedRoutes";
 
 function App() {
-  const { state, actions } = useOvermind();
+  const { state } = useOvermind();
   return <>{state.user.user ? <ProtectedRoutes /> : <Auth />}</>;
 }
 

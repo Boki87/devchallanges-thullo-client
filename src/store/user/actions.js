@@ -1,5 +1,19 @@
 import { api } from "../../utils/api";
 
+export const updateProfile = async ({ state }, payload) => {
+  state.user.userLoading = true;
+  try {
+    const res = await api.put(`/auth`, payload);
+    if (res.data.success) {
+      state.user.user = res.data.data;
+      localStorage.setItem("thullo-user", JSON.stringify(res.data.data));
+    }
+    state.user.userLoading = false;
+  } catch (err) {
+    state.user.userLoading = false;
+  }
+};
+
 export const logOut = ({ state }) => {
   localStorage.removeItem("thullo-user-token");
   localStorage.removeItem("thullo-user");

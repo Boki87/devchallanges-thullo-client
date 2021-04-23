@@ -37,6 +37,7 @@ export const resetActiveBoard = ({ state }) => {
   state.boards.activeBoard = null;
   state.boards.boardLoading = false;
   state.boards.boardError = null;
+  state.lists.lists = [];
 };
 
 export const getActiveBoard = async ({ state }, id) => {

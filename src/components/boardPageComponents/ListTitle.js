@@ -34,6 +34,7 @@ const ListTitleStyled = styled.div`
     display: flex;
     flex-direction: column;
     padding: 15px;
+    box-shadow: var(--bs1);
     input {
       border: none;
       font-size: 0.9rem;
@@ -93,6 +94,7 @@ const SelectStyled = styled.div`
       background: var(--bgWhite);
       color: var(--textBlack);
       padding: 10px;
+      font-size: 0.9rem;
       &:hover {
         filter: brightness(90%);
       }
@@ -107,7 +109,7 @@ const SelectStyled = styled.div`
   }
 `;
 
-function DropdownOptions({ onClick }) {
+function DropdownOptions({ onClick, onRename, onDelete }) {
   const [showOptions, setShowOptions] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const ref = useRef(null);
@@ -126,8 +128,13 @@ function DropdownOptions({ onClick }) {
     setShowOptions(true);
   }
 
-  function clickHandler() {
-    onClick();
+  function deleteHandler() {
+    onDelete();
+    closeDropdown();
+  }
+
+  function renameHandler() {
+    onRename();
     closeDropdown();
   }
 
@@ -144,7 +151,10 @@ function DropdownOptions({ onClick }) {
             left: `${popupPosition.left}px`,
           }}
         >
-          <div className="option" onClick={clickHandler}>
+          <div className="option" onClick={renameHandler}>
+            Rename
+          </div>
+          <div className="option" onClick={deleteHandler}>
             Delete this list
           </div>
         </div>
@@ -187,7 +197,10 @@ export default function ListTitle({ title = "", listId }) {
           {title}
         </span>
 
-        <DropdownOptions onClick={deleteListHandler} />
+        <DropdownOptions
+          onDelete={deleteListHandler}
+          onRename={() => setShowForm(true)}
+        />
       </div>
       {showForm && (
         <div className="new-button-form">

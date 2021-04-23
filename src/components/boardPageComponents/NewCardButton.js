@@ -37,6 +37,7 @@ const NewCardButtonStyled = styled.div`
     display: flex;
     flex-direction: column;
     padding: 15px;
+    box-shadow: var(--bs1);
     input {
       border: none;
       font-size: 0.9rem;
