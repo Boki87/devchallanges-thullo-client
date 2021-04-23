@@ -1,7 +1,10 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BACKEND_URL,
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? "https://devchallenges-thullo-api.herokuapp.com/api/v1"
+      : "http://localhost:5000/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
