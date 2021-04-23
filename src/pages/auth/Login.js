@@ -48,7 +48,7 @@ const LoginStyled = styled.div`
 
 export default function Login({ setFormHandler }) {
   let { inputs, handleChange } = useForm({
-    email: "bojan@example.com",
+    email: "guest@example.com",
     password: "123456",
   });
 
